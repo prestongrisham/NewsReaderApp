@@ -9,7 +9,7 @@
 import Foundation
 
 
-let NEWS_API_KEY = "3a2b61ce350b4d67ac76a4b23a6cd336"
+
 
 struct Resource<T> {
     let url: URL

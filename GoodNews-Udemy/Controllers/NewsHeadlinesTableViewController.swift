@@ -25,6 +25,16 @@ class NewsHeadlinesTableViewController: UITableViewController {
         case technology = "technology"
         
     }
+        
+    func setupHeader(color: UIColor) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = color
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.lightText] // With a red background, make the title more readable.
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+    }
     
     var categoryToShow: newsCategories = .sports
     
@@ -36,9 +46,31 @@ class NewsHeadlinesTableViewController: UITableViewController {
         self.navigationItem.backBarButtonItem?.tintColor = .white
         
         setupUI()
-        populateHeadlinesAndArticles()
+        //populateHeadlinesAndArticles()
         
-        self.navigationItem.title = "TODAYS NEWS"
+        // Check to see what tab you are on
+        if self.tabBarController?.selectedIndex == 0 {
+            setupHeader(color: .orange)
+            categoryToShow = .general
+            self.navigationItem.title = categoryToShow.rawValue
+            populateHeadlinesAndArticlesSelect()
+        } else if self.tabBarController?.selectedIndex == 1 {
+            categoryToShow = .technology
+            setupHeader(color: .systemBlue)
+            self.navigationItem.title = categoryToShow.rawValue
+            populateHeadlinesAndArticlesSelect()
+        } else if self.tabBarController?.selectedIndex == 2 {
+            setupHeader(color: .systemIndigo)
+            categoryToShow = .business
+            self.navigationItem.title = categoryToShow.rawValue
+            populateHeadlinesAndArticlesSelect()
+        } else if self.tabBarController?.selectedIndex == 3 {
+            categoryToShow = .sports
+            self.navigationItem.title = categoryToShow.rawValue
+            populateHeadlinesAndArticlesSelect()
+        }
+        
+        //self.navigationItem.title = "TODAYS NEWS"
         //populateHeadlinesAndArticlesSelect()
         
         let refreshControl = UIRefreshControl()
@@ -48,7 +80,7 @@ class NewsHeadlinesTableViewController: UITableViewController {
     }
     
     @objc func refreshPage() {
-        print("In Here")
+        //print("In Here")
         if categoryToShow == .sports {
             categoryToShow = .business
             self.navigationItem.title = categoryToShow.rawValue
@@ -73,9 +105,9 @@ class NewsHeadlinesTableViewController: UITableViewController {
         refreshControl?.endRefreshing()
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.categoryListVM.heightForHeaderInSection(section)
-    }
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return self.categoryListVM.heightForHeaderInSection(section)
+//    }
     
     private func populateHeadlinesAndArticles() {
         
@@ -85,12 +117,12 @@ class NewsHeadlinesTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let name = self.categoryListVM.categoryAtIndex(index: section).name
-        return UIView.viewForSectionHeader(title: name)
-        
-    }
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//
+//        let name = self.categoryListVM.categoryAtIndex(index: section).name
+//        return UIView.viewForSectionHeader(title: name)
+//
+//    }
     
     private func populateHeadlinesAndArticlesSelect() {
         
@@ -118,7 +150,7 @@ class NewsHeadlinesTableViewController: UITableViewController {
     
     private func setupUI() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.tableView.tableHeaderView = UIView.viewForTableViewHeader(title: Date.dateAsStringForTableViewHeader())
+        //self.tableView.tableHeaderView = UIView.viewForTableViewHeader(title: Date.dateAsStringForTableViewHeader())
     }
     
     func setup(color: UIColor) {

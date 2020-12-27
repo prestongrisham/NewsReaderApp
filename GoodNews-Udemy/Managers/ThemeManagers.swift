@@ -22,6 +22,7 @@ class ThemeManager {
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         
+        
     }
     
 }
